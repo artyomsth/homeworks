@@ -2,18 +2,27 @@
 #include <iomanip>
 using namespace std;
 
+uint16_t max_number_of_digits(int a, int b);
+
 int main()
 {
     srand(time(nullptr));
-    int16_t from, to, N = 3, M = 5;
+    int16_t from = 0, to = 0, N = 3, M = 5;
     int16_t a[N][M];
     int sum0 = 0, sum1 = 0;
-    bool sorted = false;
+    bool sorted;
+    uint16_t maxwidth = 0;
 
-    cout << "Generate random numbers in range\nfrom: ";
-    cin >> from;
-    cout << "to: ";
-    cin >> to;
+    cout << "Generate random numbers in range\n";
+    do
+    {
+        cout << "from: ";
+        cin >> from;
+        cout << "to: ";
+        cin >> to;
+    } while (from > to);
+
+    maxwidth = max_number_of_digits(from, to);
 
     cout << "\nRandom-generated matrix:" << "\n";
     for (int i = 0; i < N; i++)
@@ -21,7 +30,7 @@ int main()
         for (int j = 0; j < M; j++)
         {
             a[i][j] = from + rand() % (to - from + 1);
-            cout << setw(3) << a[i][j];
+            cout << setw(maxwidth) << a[i][j];
         }
         cout << "\n";
     }
@@ -65,10 +74,22 @@ int main()
     {
         for (int j = 0; j < M; j++)
         {
-            cout << setw(3) << a[i][j];
+            cout << setw(maxwidth) << a[i][j];
         }
         cout << "\n";
     }
 
     return 0;
+}
+
+uint16_t max_number_of_digits(int a, int b)
+{
+    uint16_t k = 2;
+    while ((a != 0) | (b != 0))
+    {
+        k += 1;
+        a /= 10;
+        b /= 10;
+    }
+    return k;
 }
